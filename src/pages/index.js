@@ -1,38 +1,38 @@
-import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import Layout from "../components/layout"
-// import ArticlesGrid from "../components/articles-grid"
-// import Seo from "../components/seo"
-// import Headings from "../components/headings"
+import React from "react";
+import { Layout } from "../components/Layout.js";
+import { graphql } from "gatsby";
+import { CarCard } from "../components/Car-Card";
 
-const IndexPage = () => {
-  // const { allStrapiArticle, strapiGlobal } = useStaticQuery(graphql`
-  //   query {
-  //     allStrapiArticle {
-  //       nodes {
-  //         ...ArticleCard
-  //       }
-  //     }
-  //     strapiGlobal {
-  //       siteName
-  //       siteDescription
-  //     }
-  //   }
-  // `)
-
+const Home = ({ data }) => {
+  console.log(data);
   return (
     <Layout>
-      {/* <Seo seo={{ metaTitle: "Home" }} />
-      <Headings
-        title={strapiGlobal.siteName}
-        description={strapiGlobal.siteDescription}
-      />
-      <main>
-        <ArticlesGrid articles={allStrapiArticle.nodes} />
-      </main> */}
-      <div>IndexPage</div>
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center">
+        Car Blogs
+      </h2>
+      {data.allStrapiCar.edges.map((car) => (
+        <CarCard carData={car.node} />
+      ))}
     </Layout>
-  )
-}
+  );
+};
 
-export default IndexPage
+export const query = graphql`
+  query MyQuery {
+    allStrapiCar {
+      edges {
+        node {
+          category
+          company
+          description
+          highestPrice
+          lowestPrice
+          slug
+          title
+        }
+      }
+    }
+  }
+`;
+
+export default Home;
