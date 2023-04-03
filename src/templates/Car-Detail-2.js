@@ -1,6 +1,6 @@
 import { graphql } from "gatsby";
 import React from "react";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import Img from "gatsby-image";
 
 const CarDetail = ({ data }) => {
   const { strapiCar } = data;
@@ -12,7 +12,7 @@ const CarDetail = ({ data }) => {
           {strapiCar.title + " - " + strapiCar.tagLine}
         </h1>
       </header>
-      <GatsbyImage image={getImage(strapiCar?.mainImage.localFile)} />
+      <Img fluid={strapiCar.mainImage.localFile.childImageSharp.fluid} />
       <p class="mt-5 text-sm leading-6 text-gray-600">
         {strapiCar.shortDescription}
       </p>
@@ -59,7 +59,13 @@ export const query = graphql`
       mainImage {
         localFile {
           childImageSharp {
-            gatsbyImageData
+            fluid(maxWidth: 1000) {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
           }
         }
       }
